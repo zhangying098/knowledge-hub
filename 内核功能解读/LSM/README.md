@@ -569,8 +569,15 @@ static void __init ordered_lsm_init(void)
 }
 ```
 
-### 五、总结
+### 五、demo 实现
+在 2.6.X 内核版本之后，lsm 模块不允许编写外部模块，通过 insmod 动态加载到内核中，需要在编译内核时添加。
 
+`struct security_hook_heads security_hook_heads __ro_after_init;`
+
+security_hook_heads 标记为在系统初始化后设置为只读。
+
+
+### 六、总结
 LSM框架中的标准预置回调函数进行hook是当前安全加固最优雅的解决方案。
 
 **参考：**
