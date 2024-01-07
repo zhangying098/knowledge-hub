@@ -2,9 +2,8 @@
 
 LSM 实现了钩子的概念，不依赖于系统架构对系统事件进行控制。从技术上讲，挂钩调用类似于系统调用，但是 LSM 挂钩调用与系统独立，并于LSM框架集成，LSM框架提供了方便使用的抽象层，并且在不同体系结构上使用系统调用，避免了可能发生的各种麻烦。
 
-**BPF LSM 模块加载**
+### BPF LSM 模块加载
 
------
 在 `security/bpf/hooks.c` 函数中，完成 BPF LSM 加载
 ```c
 #include <linux/lsm_hooks.h>
@@ -61,10 +60,9 @@ DEFINE_LSM(bpf) = {
 ```
 
 
-**内核有 7 个与BPF程序相关的钩子，而SELinux是唯一实现了它们的内置LSM**
+### 内核有 7 个与BPF程序相关的钩子，而SELinux是唯一实现了它们的内置LSM
 
-------
-> `security\selinux\hooks.c` 的 `struct security_hook_list selinux_hooks[]` 可检索到上述相关大的 7 个BPF程序相关的 `security_hook_list` 初始化 
+> 在 `security\selinux\hooks.c` 的 `struct security_hook_list selinux_hooks[]` 可检索到上述相关的 7 个BPF程序相关的 `security_hook_list` 初始化 
 
 ```c
 #ifdef CONFIG_SECURITY
