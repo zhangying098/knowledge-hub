@@ -1,0 +1,6 @@
+[submodule "turotial_project/bpf-developer-tutorial"]
+	path = turotial_project/bpf-developer-tutorial
+	url = git@github.com:eunomia-bpf/bpf-developer-tutorial.git
+[submodule "turotial_project/xdp-tutorial"]
+	path = turotial_project/xdp-tutorial
+	url = git@github.com:xdp-project/xdp-tutorial.git
