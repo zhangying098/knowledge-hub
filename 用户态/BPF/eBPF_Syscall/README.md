@@ -4,45 +4,45 @@
 
 `bpf()`系统调用要执行的操作由`cmd`参数确定。每个操作都有一个伴随参数，该参数通过`attr`提供，`attr`是指向`bpf_attr`类型联合体的指针（见下文）。`size`参数是`attr`指向的联合体的大小。
 
-| 宏 | 内核版本(4.19 - 至今) | 提交 |
-|:----|:----------|:-----|
-|BPF_MAP_CREATE						|√		|[99c55f7d47c0](https://github.com/torvalds/linux/commit/99c55f7d47c0dc6fc64729f37bf435abf43f4c60)|
-|BPF_MAP_LOOKUP_ELEM,				|√		|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
-|BPF_MAP_UPDATE_ELEM,				|√		|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
-|BPF_MAP_DELETE_ELEM,				|√		|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
-|BPF_MAP_GET_NEXT_KEY,				|√		|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
-|BPF_PROG_LOAD,						|√		|[09756af46893](https://github.com/torvalds/linux/commit/09756af46893c18839062976c3252e93a1beeba7)|
-|BPF_OBJ_PIN,						|√		|[b2197755b263](https://github.com/torvalds/linux/commit/b2197755b2633e164a439682fb05a9b5ea48f706)|
-|BPF_OBJ_GET,						|√		|[b2197755b263](https://github.com/torvalds/linux/commit/b2197755b2633e164a439682fb05a9b5ea48f706)|
-|BPF_PROG_ATTACH,					|√		|[f4324551489e](https://github.com/torvalds/linux/commit/f4324551489e8781d838f941b7aee4208e52e8bf)|
-|BPF_PROG_DETACH,					|√		|[f4324551489e](https://github.com/torvalds/linux/commit/f4324551489e8781d838f941b7aee4208e52e8bf)|
-|BPF_PROG_TEST_RUN,					|√		|[1cf1cae963c2](https://github.com/torvalds/linux/commit/1cf1cae963c2e6032aebe1637e995bc2f5d330f4)|
-|BPF_PROG_RUN = BPF_PROG_TEST_RUN,	|√		|[5d67f349590d](https://github.com/torvalds/linux/commit/5d67f349590ddc94b6d4e25f19085728db9de697)|
-|BPF_PROG_GET_NEXT_ID,				|√		|[34ad5580f8f9](https://github.com/torvalds/linux/commit/34ad5580f8f9c86cb273ebea25c149613cd1667e)|
-|BPF_MAP_GET_NEXT_ID,				|√		|[34ad5580f8f9](https://github.com/torvalds/linux/commit/34ad5580f8f9c86cb273ebea25c149613cd1667e)|
-|BPF_PROG_GET_FD_BY_ID,				|√		|[b16d9aa4c2b9](https://github.com/torvalds/linux/commit/b16d9aa4c2b90af8d2c3201e245150f8c430c3bc)|
-|BPF_MAP_GET_FD_BY_ID,				|√		|[bd5f5f4ecb78](https://github.com/torvalds/linux/commit/bd5f5f4ecb78e2698dad655645b6d6a2f7012a8c)|
-|BPF_OBJ_GET_INFO_BY_FD,			|√		|[1e2709769086](https://github.com/torvalds/linux/commit/1e270976908686ec25fb91b8a34145be54137976)|
-|BPF_PROG_QUERY,					|√		|[468e2f64d220](https://github.com/torvalds/linux/commit/468e2f64d220fe2dc11caa2bcb9b3a1e50fc7321)|
-|BPF_RAW_TRACEPOINT_OPEN,			|√		|[c4f6699dfcb8](https://github.com/torvalds/linux/commit/c4f6699dfcb8558d138fe838f741b2c10f416cf9)|
-|BPF_BTF_LOAD,						|√		|[f56a653c1fd1](https://github.com/torvalds/linux/commit/f56a653c1fd13a197076dec4461c656fd2adec73)|
-|BPF_BTF_GET_FD_BY_ID,				|√		|[78958fca7ead](https://github.com/torvalds/linux/commit/78958fca7ead2f81b60a6827881c4866d1ed0c52)|
-|BPF_TASK_FD_QUERY,					|√		|[41bdc4b40ed6](https://github.com/torvalds/linux/commit/41bdc4b40ed6fb26c6acc655ed9a243a348709c9)|
-|BPF_MAP_LOOKUP_AND_DELETE_ELEM,	|4.20	|[bd513cd08f10](https://github.com/torvalds/linux/commit/bd513cd08f10cbe28856f99ae951e86e86803861)|
-|BPF_MAP_FREEZE,					|5.2	|[87df15de441b](https://github.com/torvalds/linux/commit/87df15de441bd4add7876ef584da8cabdd9a042a)|
-|BPF_BTF_GET_NEXT_ID,				|5.4	|[1b9ed84ecf26](https://github.com/torvalds/linux/commit/1b9ed84ecf268904d89edf2908426a8eb3b5a4ba)|
-|BPF_MAP_LOOKUP_BATCH,				|5.6	|[cb4d03ab499d](https://github.com/torvalds/linux/commit/cb4d03ab499d4c040f4ab6fd4389d2b49f42b5a5)|
-|BPF_MAP_LOOKUP_AND_DELETE_BATCH,	|5.6	|[057996380a42](https://github.com/torvalds/linux/commit/057996380a42bb64ccc04383cfa9c0ace4ea11f0)|
-|BPF_MAP_UPDATE_BATCH,				|5.6	|[aa2e93b8e58e](https://github.com/torvalds/linux/commit/aa2e93b8e58e18442edfb2427446732415bc215e)|
-|BPF_MAP_DELETE_BATCH,				|5.6	|[aa2e93b8e58e](https://github.com/torvalds/linux/commit/aa2e93b8e58e18442edfb2427446732415bc215e)|
-|BPF_LINK_CREATE,					|5.7	|[af6eea57437a](https://github.com/torvalds/linux/commit/af6eea57437a830293eab56246b6025cc7d46ee7)|
-|BPF_LINK_UPDATE,					|5.7	|[0c991ebc8c69](https://github.com/torvalds/linux/commit/0c991ebc8c69d29b7fc44db17075c5aa5253e2ab)|
-|BPF_LINK_GET_FD_BY_ID,				|5.8	|[2d602c8cf40d](https://github.com/torvalds/linux/commit/2d602c8cf40d65d4a7ac34fe18648d8778e6e594)| 
-|BPF_LINK_GET_NEXT_ID,				|5.8	|[2d602c8cf40d](https://github.com/torvalds/linux/commit/2d602c8cf40d65d4a7ac34fe18648d8778e6e594)|
-|BPF_ENABLE_STATS,					|5.8	|[d46edd671a14](https://github.com/torvalds/linux/commit/d46edd671a147032e22cfeb271a5734703093649)|
-|BPF_ITER_CREATE,					|5.8	|[ac51d99bf81c](https://github.com/torvalds/linux/commit/ac51d99bf81caac8d8881fe52098948110d0de68)|
-|BPF_LINK_DETACH,					|5.9	|[73b11c2ab072](https://github.com/torvalds/linux/commit/73b11c2ab072d5b0599d1e12cc126f55ee306daf)|
-|BPF_PROG_BIND_MAP,					|5.10	|[ef15314aa5de](https://github.com/torvalds/linux/commit/ef15314aa5de955c6afd87d512e8b00f5ac08d06)|
+| 宏 | 内核版本(4.19 - 至今) | 功能 | 提交 |
+|:----|:----------|:-----|:-----|
+|BPF_MAP_CREATE						|√		|用于创建具有指定属性的 BPF map|[99c55f7d47c0](https://github.com/torvalds/linux/commit/99c55f7d47c0dc6fc64729f37bf435abf43f4c60)|
+|BPF_MAP_LOOKUP_ELEM,				|√		|允许您根据给定的键在 BPF map 中查找元素|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
+|BPF_MAP_UPDATE_ELEM,				|√		|用于更新 BPF map 中的现有元素|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
+|BPF_MAP_DELETE_ELEM,				|√		|从 BPF map 中删除元素|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
+|BPF_MAP_GET_NEXT_KEY,				|√		|获取 BPF map 中的下一个键，用于遍历 map 条目|[db20fd2b0108](https://github.com/torvalds/linux/commit/db20fd2b01087bdfbe30bce314a198eefedcc42e)|
+|BPF_PROG_LOAD,						|√		|将一个 eBPF 程序加载到内核中|[09756af46893](https://github.com/torvalds/linux/commit/09756af46893c18839062976c3252e93a1beeba7)|
+|BPF_OBJ_PIN,						|√		|将一个 eBPF 对象（程序或 map）固定到文件系统中的路径|[b2197755b263](https://github.com/torvalds/linux/commit/b2197755b2633e164a439682fb05a9b5ea48f706)|
+|BPF_OBJ_GET,						|√		|通过文件描述符检索 eBPF 对象|[b2197755b263](https://github.com/torvalds/linux/commit/b2197755b2633e164a439682fb05a9b5ea48f706)|
+|BPF_PROG_ATTACH,					|√		|将 eBPF 程序附加到特定的钩子点|[f4324551489e](https://github.com/torvalds/linux/commit/f4324551489e8781d838f941b7aee4208e52e8bf)|
+|BPF_PROG_DETACH,					|√		|将 eBPF 程序分离钩子点|[f4324551489e](https://github.com/torvalds/linux/commit/f4324551489e8781d838f941b7aee4208e52e8bf)|
+|BPF_PROG_TEST_RUN,					|√		|用于测试 eBPF 程序|[1cf1cae963c2](https://github.com/torvalds/linux/commit/1cf1cae963c2e6032aebe1637e995bc2f5d330f4)|
+|BPF_PROG_RUN = BPF_PROG_TEST_RUN,	|√		|用于运行 eBPF 程序|[5d67f349590d](https://github.com/torvalds/linux/commit/5d67f349590ddc94b6d4e25f19085728db9de697)|
+|BPF_PROG_GET_NEXT_ID,				|√		|获取下一个可用的 eBPF 程序|[34ad5580f8f9](https://github.com/torvalds/linux/commit/34ad5580f8f9c86cb273ebea25c149613cd1667e)|
+|BPF_MAP_GET_NEXT_ID,				|√		|获取下一个可用的 map 的 ID|[34ad5580f8f9](https://github.com/torvalds/linux/commit/34ad5580f8f9c86cb273ebea25c149613cd1667e)|
+|BPF_PROG_GET_FD_BY_ID,				|√		|通过 ID 获取 eBPF 程序文件描述符|[b16d9aa4c2b9](https://github.com/torvalds/linux/commit/b16d9aa4c2b90af8d2c3201e245150f8c430c3bc)|
+|BPF_MAP_GET_FD_BY_ID,				|√		|通过 ID 获取 eBPF map 的文件描述符|[bd5f5f4ecb78](https://github.com/torvalds/linux/commit/bd5f5f4ecb78e2698dad655645b6d6a2f7012a8c)|
+|BPF_OBJ_GET_INFO_BY_FD,			|√		|使用文件描述符获取与 eBPF 对象相关的信息|[1e2709769086](https://github.com/torvalds/linux/commit/1e270976908686ec25fb91b8a34145be54137976)|
+|BPF_PROG_QUERY,					|√		|查询 eBPF 程序的信息|[468e2f64d220](https://github.com/torvalds/linux/commit/468e2f64d220fe2dc11caa2bcb9b3a1e50fc7321)|
+|BPF_RAW_TRACEPOINT_OPEN,			|√		|打开用于 eBPF 跟踪的原始跟踪点|[c4f6699dfcb8](https://github.com/torvalds/linux/commit/c4f6699dfcb8558d138fe838f741b2c10f416cf9)|
+|BPF_BTF_LOAD,						|√		|加载 BPF 类型格式（BTF）信息|[f56a653c1fd1](https://github.com/torvalds/linux/commit/f56a653c1fd13a197076dec4461c656fd2adec73)|
+|BPF_BTF_GET_FD_BY_ID,				|√		|检索 BPF 类型格式（BTF）信息|[78958fca7ead](https://github.com/torvalds/linux/commit/78958fca7ead2f81b60a6827881c4866d1ed0c52)|
+|BPF_TASK_FD_QUERY,					|√		|查询任务的文件描述符信息|[41bdc4b40ed6](https://github.com/torvalds/linux/commit/41bdc4b40ed6fb26c6acc655ed9a243a348709c9)|
+|BPF_MAP_LOOKUP_AND_DELETE_ELEM,	|4.20	|查找并从 BPF map 中删除元素|[bd513cd08f10](https://github.com/torvalds/linux/commit/bd513cd08f10cbe28856f99ae951e86e86803861)|
+|BPF_MAP_FREEZE,					|5.2	|冻结 BPF map|[87df15de441b](https://github.com/torvalds/linux/commit/87df15de441bd4add7876ef584da8cabdd9a042a)|
+|BPF_BTF_GET_NEXT_ID,				|5.4	|获取下一个可用的 BTF ID|[1b9ed84ecf26](https://github.com/torvalds/linux/commit/1b9ed84ecf268904d89edf2908426a8eb3b5a4ba)|
+|BPF_MAP_LOOKUP_BATCH,				|5.6	|对 BPF map 执行批量操作|[cb4d03ab499d](https://github.com/torvalds/linux/commit/cb4d03ab499d4c040f4ab6fd4389d2b49f42b5a5)|
+|BPF_MAP_LOOKUP_AND_DELETE_BATCH,	|5.6	|对 BPF map 执行批量操作|[057996380a42](https://github.com/torvalds/linux/commit/057996380a42bb64ccc04383cfa9c0ace4ea11f0)|
+|BPF_MAP_UPDATE_BATCH,				|5.6	|对 BPF map 执行批量操作|[aa2e93b8e58e](https://github.com/torvalds/linux/commit/aa2e93b8e58e18442edfb2427446732415bc215e)|
+|BPF_MAP_DELETE_BATCH,				|5.6	|对 BPF map 执行批量操作|[aa2e93b8e58e](https://github.com/torvalds/linux/commit/aa2e93b8e58e18442edfb2427446732415bc215e)|
+|BPF_LINK_CREATE,					|5.7	|管理 BPF 程序链接|[af6eea57437a](https://github.com/torvalds/linux/commit/af6eea57437a830293eab56246b6025cc7d46ee7)|
+|BPF_LINK_UPDATE,					|5.7	|管理 BPF 程序链接|[0c991ebc8c69](https://github.com/torvalds/linux/commit/0c991ebc8c69d29b7fc44db17075c5aa5253e2ab)|
+|BPF_LINK_GET_FD_BY_ID,				|5.8	|管理 BPF 程序链接|[2d602c8cf40d](https://github.com/torvalds/linux/commit/2d602c8cf40d65d4a7ac34fe18648d8778e6e594)| 
+|BPF_LINK_GET_NEXT_ID,				|5.8	|管理 BPF 程序链接|[2d602c8cf40d](https://github.com/torvalds/linux/commit/2d602c8cf40d65d4a7ac34fe18648d8778e6e594)|
+|BPF_ENABLE_STATS,					|5.8	|为 BPF 程序启用统计信息|[d46edd671a14](https://github.com/torvalds/linux/commit/d46edd671a147032e22cfeb271a5734703093649)|
+|BPF_ITER_CREATE,					|5.8	|为 BPF map 创建迭代器|[ac51d99bf81c](https://github.com/torvalds/linux/commit/ac51d99bf81caac8d8881fe52098948110d0de68)|
+|BPF_LINK_DETACH,					|5.9	|分离 BPF 程序链接|[73b11c2ab072](https://github.com/torvalds/linux/commit/73b11c2ab072d5b0599d1e12cc126f55ee306daf)|
+|BPF_PROG_BIND_MAP,					|5.10	|将 BPF 程序绑定到 map|[ef15314aa5de](https://github.com/torvalds/linux/commit/ef15314aa5de955c6afd87d512e8b00f5ac08d06)|
 
 ```c
 /* BPF syscall commands, see bpf(2) man-page for more details. */
